@@ -8,8 +8,6 @@ tags:
   - Python
   - TensorFlow
 excerpt: "基于计算机视觉的农作物病虫害检测系统"
-header:
-  image: /assets/images/project-cover.jpg
 ---
 
 ### 项目介绍
