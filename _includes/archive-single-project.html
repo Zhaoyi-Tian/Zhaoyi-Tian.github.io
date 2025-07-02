@@ -1,0 +1,44 @@
+{% include base_path %}
+
+<div class="{{ include.type | default: "list" }}__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    <!-- 处理缩略图 -->
+    {% if project.header.teaser %}
+      <div class="archive__item-teaser">
+        <img src="{{ project.header.teaser | relative_url }}" alt="{{ project.title }}">
+      </div>
+    {% endif %}
+
+    <!-- 标题 -->
+    <h2 class="archive__item-title" itemprop="headline">
+      <a href="{{ project.url | relative_url }}" rel="permalink">
+        {{ project.title | markdownify | strip_html }}
+      </a>
+    </h2>
+
+    <!-- 日期 -->
+    {% if project.date %}
+      <p class="page__meta">
+        <i class="fa fa-calendar" aria-hidden="true"></i> 
+        {{ project.date | date: "%B %d, %Y" }}
+      </p>
+    {% endif %}
+
+    <!-- 摘要 -->
+    {% if project.excerpt %}
+      <p class="archive__item-excerpt" itemprop="description">
+        {{ project.excerpt | markdownify | strip_html | truncate: 160 }}
+      </p>
+    {% endif %}
+
+    <!-- 分类标签 -->
+    {% if project.categories %}
+      <p class="page__taxonomy">
+        <i class="fa fa-tags"></i>
+        {% for category in project.categories %}
+          <a href="{{ site.baseurl }}/categories/#{{ category }}" class="page__taxonomy-item">{{ category }}</a>
+        {% endfor %}
+      </p>
+    {% endif %}
+  </article>
+</div>
