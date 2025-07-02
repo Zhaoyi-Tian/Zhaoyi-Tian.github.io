@@ -281,13 +281,19 @@ defaults:
       layout: talk
       author_profile: true
       share: true
+    # _projects
   - scope:
       path: ""
-      type: "projects"  # 针对 projects 这个自定义集合
+      type: projects
     values:
-      layout: "project"  # 统一使用 project 布局模板
-      sort_by: "date"    # 统一按 date 字段排序
-      reverse: true      # 统一倒序排列，让最新项目靠前
+      layout: single  # 复用 posts 的布局
+      author_profile: true
+      read_time: true
+      comments: true
+      share: true
+      related: true
+      sort_by: date  # 按日期排序（如果 posts 也有排序需求）
+      reverse: true  # 倒序排列
 
 
 # Sass/SCSS
