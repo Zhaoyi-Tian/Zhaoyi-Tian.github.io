@@ -1,44 +1,40 @@
 {% include base_path %}
 
+{% if project.header.teaser %}
+  {% capture teaser %}{{ project.header.teaser }}{% endcapture %}
+{% else %}
+  {% assign teaser = site.teaser %}
+{% endif %}
+
+{% if project.id %}
+  {% assign title = project.title | markdownify | remove: "<p>" | remove: "</p>" %}
+{% else %}
+  {% assign title = project.title %}
+{% endif %}
+
 <div class="{{ include.type | default: "list" }}__item">
   <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
-    <!-- 处理缩略图 -->
-    {% if project.header.teaser %}
+    <li>
+    {% if include.type == "grid" and teaser %}
       <div class="archive__item-teaser">
-        <img src="{{ project.header.teaser | relative_url }}" alt="{{ project.title }}">
+        <img src=
+          {% if teaser contains "://" %}
+            "{{ teaser }}"
+          {% else %}
+            "{{ teaser | prepend: "/images/" | prepend: base_path }}"
+          {% endif %}
+          alt="">
       </div>
     {% endif %}
-
-    <!-- 标题 -->
-    <h2 class="archive__item-title" itemprop="headline">
-      <a href="{{ project.url | relative_url }}" rel="permalink">
-        {{ project.title | markdownify | strip_html }}
-      </a>
-    </h2>
-
-    <!-- 日期 -->
-    {% if project.date %}
-      <p class="page__meta">
-        <i class="fa fa-calendar" aria-hidden="true"></i> 
-        {{ project.date | date: "%B %d, %Y" }}
-      </p>
-    {% endif %}
-
-    <!-- 摘要 -->
-    {% if project.excerpt %}
-      <p class="archive__item-excerpt" itemprop="description">
-        {{ project.excerpt | markdownify | strip_html | truncate: 160 }}
-      </p>
-    {% endif %}
-
-    <!-- 分类标签 -->
-    {% if project.categories %}
-      <p class="page__taxonomy">
-        <i class="fa fa-tags"></i>
-        {% for category in project.categories %}
-          <a href="{{ site.baseurl }}/categories/#{{ category }}" class="page__taxonomy-item">{{ category }}</a>
-        {% endfor %}
-      </p>
-    {% endif %}
+    <h3 class="archive__item-title" itemprop="headline">
+      {% if project.link %}
+        <a href="{{ project.link }}">{{ title }}</a> <a href="{{ base_path }}{{ project.url }}" rel="permalink"><i class="fa fa-link" aria-hidden="true" title="permalink"></i><span class="sr-only">Permalink</span></a>
+      {% else %}
+        <a href="{{ base_path }}{{ project.url }}" rel="permalink">{{ title }}</a>
+      {% endif %}
+    </h3>
+    {% if project.date %}<p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> {{ project.date | date: '%B %d, %Y' }}</p>{% endif %}
+    {% if project.venue%}<p class="archive__item-excerpt" itemprop="description">{{ project.type }} at {{ project.venue }},  {{ project.location }}</p>{% endif %}
+    </li>
   </article>
 </div>
