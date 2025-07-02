@@ -1,13 +1,11 @@
 ---
-title: "智能农业系统"
-date: 2025-07-02 # 重要：设置发布日期
-categories:
-  - AI
-  - IoT
+title: 'Blog Post number 1'
+date: 2012-08-14
+permalink: /posts/2012/08/blog-post-1/
 tags:
-  - Python
-  - TensorFlow
-excerpt: "基于计算机视觉的农作物病虫害检测系统"
+  - cool posts
+  - category1
+  - category2
 ---
 
 ### 项目介绍
