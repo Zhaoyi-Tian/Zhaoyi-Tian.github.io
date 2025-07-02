@@ -220,7 +220,7 @@ collections:
     output: true
     permalink: /:collection/:path/
   projects:
-    output: true
+    output: false
     permalink: /projects/:path/
     sort_by: date  # 按日期排序
     reverse: true  # 降序排列（最新的在前）
