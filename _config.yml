@@ -284,14 +284,12 @@ defaults:
       path: ""
       type: projects
     values:
-      layout: single  # 复用 posts 的布局
+      layout: single
       author_profile: true
       read_time: true
       comments: true
       share: true
       related: true
-      sort_by: date  # 按日期排序（如果 posts 也有排序需求）
-      reverse: true  # 倒序排列
 
 
 # Sass/SCSS
