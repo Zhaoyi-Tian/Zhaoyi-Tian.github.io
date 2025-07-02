@@ -219,11 +219,11 @@ collections:
   teaching:
     output: true
     permalink: /:collection/:path/
-  projects:
-    output: false
-    permalink: /projects/:path/
-    sort_by: date  # 按日期排序
-    reverse: true  # 降序排列（最新的在前）
+  # projects:
+  #   output: false
+  #   permalink: /projects/:path/
+  #   sort_by: date  # 按日期排序
+  #   reverse: true  # 降序排列（最新的在前）
 
 
 # These settings control how pages and collections are included in the site
@@ -281,6 +281,13 @@ defaults:
       layout: talk
       author_profile: true
       share: true
+  - scope:
+      path: ""
+      type: "projects"  # 针对 projects 这个自定义集合
+    values:
+      layout: "project"  # 统一使用 project 布局模板
+      sort_by: "date"    # 统一按 date 字段排序
+      reverse: true      # 统一倒序排列，让最新项目靠前
 
 
 # Sass/SCSS
