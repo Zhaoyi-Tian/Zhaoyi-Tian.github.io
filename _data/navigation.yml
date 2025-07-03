@@ -35,5 +35,5 @@ main:
   - title: "项目"
     url: /projects/
     
-  - title: "课程资料"
-    url: /​course-materials/
+  # - title: "课程资料"
+  #   url: /​course-materials/
