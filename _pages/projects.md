@@ -4,7 +4,7 @@ layout: archive
 permalink: /projects/
 ---
 
-{% comment %} 按年月分组项目（不使用插件） {% endcomment %}
+{% comment %} 按年月分组项目（彻底修复嵌套） {% endcomment %}
 {% assign sorted_projects = site.projects | sort: 'date' | reverse %}
 {% assign current_month = nil %}
 
@@ -12,27 +12,30 @@ permalink: /projects/
   {% for project in sorted_projects %}
     {% assign project_month = project.date | date: '%Y-%m' %}
     
-    {% comment %} 检查是否需要创建新的月份分组 {% endcomment %}
+    {% comment %} 新建分组：关闭旧分组 → 开新分组 {% endcomment %}
     {% if project_month != current_month %}
-      {% comment %} 如果不是第一个分组，则关闭上一个分组的容器 {% endcomment %}
-      {% if current_month != nil %}</div></div>{% endif %}
+      {% comment %} 关闭上一个分组（如果存在） {% endcomment %}
+      {% if current_month %}
+        </div> <!-- 关闭 .timeline-items -->
+      </div> <!-- 关闭 .timeline-group -->
+      {% endif %}
       
-      {% comment %} 创建新的月份分组 {% endcomment %}
+      {% comment %} 新建分组容器 {% endcomment %}
       <div class="timeline-group">
         <div class="timeline-marker">
           {{ project_month }}
         </div>
         <div class="timeline-items">
-      
-      {% comment %} 更新当前月份标记 {% endcomment %}
-      {% assign current_month = project_month %}
     {% endif %}
     
-    {% comment %} 渲染项目内容 {% endcomment %}
+    {% comment %} 渲染项目卡片（关键：移除 markdownify 避免标题解析） {% endcomment %}
     {% include archive-single-project.html %}
     
+    {% comment %} 更新当前月份 {% endcomment %}
+    {% assign current_month = project_month %}
   {% endfor %}
   
-  {% comment %} 关闭最后一个分组的容器 {% endcomment %}
-  </div></div>
-</div>
+  {% comment %} 关闭最后一个分组 {% endcomment %}
+  </div> <!-- 关闭 .timeline-items -->
+</div> <!-- 关闭 .timeline-group -->
+</div> <!-- 关闭 .timeline-container -->

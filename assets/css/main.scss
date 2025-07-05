@@ -40,3 +40,125 @@
     "vendor/font-awesome/solid",
     "vendor/font-awesome/brands"
 ;
+/* 时间轴容器 */
+.timeline-container {
+  position: relative;
+  padding-left: 60px; /* 给时间标记留出空间，值可按需调整 */
+  border-left: 2px solid #eaecef; /* 时间轴主线 */
+  margin: 20px 0;
+}
+
+/* 月份分组容器 */
+.timeline-group {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+/* 时间标记（显示在竖线右侧，无框，仅文字） */
+.timeline-marker {
+  position: absolute;
+  left: -50px; /* 调整水平位置，让标记在竖线右侧，可根据实际微调 */
+  top: 0;
+  color: #007bff; /* 文字颜色，可按需修改 */
+  font-size: 14px;
+  z-index: 2; /* 确保在主线等上层显示 */
+  background: none; /* 去掉背景色 */
+  border: none; /* 去掉边框 */
+  padding: 0; /* 去掉内边距 */
+}
+
+
+/* 项目列表 */
+.timeline-items {
+  margin-left: 20px;
+  padding-left: 20px;
+}
+
+/* 项目卡片 */
+.project-card {
+  margin-bottom: 15px;
+}
+
+/* GitHub风格项目卡片样式 */
+.github-project-card {
+  border: 1px solid #eaecef;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  background-color: #ffffff;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+  max-width: 540px; /* 卡片最长 600px，可按需改（如 500px、400px） */
+  width: 100%; /* 确保小屏幕下自动适应 */
+}
+
+.github-project-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.github-project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  border-bottom: 1px solid #eaecef;
+}
+
+.project-title {
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0;
+}
+
+.project-meta {
+  font-size: 12px;
+  color: #586069;
+}
+
+.project-label {
+  display: inline-block;
+  padding: 2px 6px;
+  font-size: 11px;
+  line-height: 14px;
+  border-radius: 3px;
+  background-color: #f3f4f6;
+  color: #24292e;
+  margin-left: 5px;
+}
+
+.project-body {
+  padding: 15px;
+}
+
+.project-description {
+  color: #6e7781;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.project-meta-info {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: #586069;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+  margin-bottom: 5px;
+}
+
+.meta-icon {
+  margin-right: 5px;
+  color: #6e7781;
+}
+
+.language-color {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  margin-right: 5px;
+}
