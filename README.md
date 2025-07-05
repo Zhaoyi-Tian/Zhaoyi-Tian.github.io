@@ -1,4 +1,9 @@
-# Academic Pages
+# Academic Pages（tzy版）
+
+欢迎，这是我frok并加以修改的学术网站模板。我主要添加了”项目“部分，使之能够以类github仓库的卡片和时间轴来呈现一些我自认为能够加以纪念的作业和项目，并展现自己的成长。主要改动的部分在_includes\archive-single-project.html，\_pages\projects.md，assets\css\main.scss("项目的css文件")，以及\_projects
+
+以下是原版的README，事实证明在本地运行非常有用，但可能是我道行不够吧，在windows上运行始终都没成功，最终在WSL2上用Using a different IDE中的方法才最终成功的。
+
 **Academic Pages is a GitHub Pages template for personal and professional portfolio-oriented websites.**
 
 ![Academic Pages template example](images/homepage.png "Academic Pages template example")
@@ -23,7 +28,7 @@ When you are initially working on your website, it is very useful to be able to 
 
 ### Using a different IDE
 1. Make sure you have ruby-dev, bundler, and nodejs installed
-    
+   
     On most Linux distribution and [Windows Subsystem Linux](https://learn.microsoft.com/en-us/windows/wsl/about) the command is:
     ```bash
     sudo apt install ruby-dev ruby-bundler nodejs
@@ -85,7 +90,6 @@ Unfortunately, one logistical issue with a template theme like Academic Pages th
 
 ---
 <div align="center">
-    
 ![pages-build-deployment](https://github.com/academicpages/academicpages.github.io/actions/workflows/pages/pages-build-deployment/badge.svg)
 [![GitHub contributors](https://img.shields.io/github/contributors/academicpages/academicpages.github.io.svg)](https://github.com/academicpages/academicpages.github.io/graphs/contributors)
 [![GitHub release](https://img.shields.io/github/v/release/academicpages/academicpages.github.io)](https://github.com/academicpages/academicpages.github.io/releases/latest)
