@@ -51,6 +51,8 @@ author:
   stackoverflow    : # User number or user number and name (i.e., use "1" or "1/jeff-atwood")    
 
   # Social media
+  qq               : "503761171"        # 仅填写号码，如 "123456789"
+  wechat           : "qq503761171"      # 填写微信号，如 "zhaoyi_tian"
   artstation       : # Username
   bluesky          : # Replace this with you Bluesky username
   facebook         : # Username
@@ -75,7 +77,7 @@ author:
   wikipedia        : # Username
   xing             : # Username
   youtube          : # Username
-  zhihu            : # Username
+  zhihu            :  
 
 # Publication Category - The following the list of publication categories and their headings
 publication_category:

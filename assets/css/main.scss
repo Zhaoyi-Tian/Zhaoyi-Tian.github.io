@@ -40,11 +40,11 @@
     "vendor/font-awesome/solid",
     "vendor/font-awesome/brands"
 ;
-/* 时间轴容器 */
+
 .timeline-container {
   position: relative;
-  padding-left: 60px; /* 给时间标记留出空间，值可按需调整 */
-  border-left: 2px solid #eaecef; /* 时间轴主线 */
+  padding-left: 60px;
+  border-left: 2px solid #eaecef; /* 原 #eaecef */
   margin: 20px 0;
 }
 
@@ -54,19 +54,18 @@
   margin-bottom: 30px;
 }
 
-/* 时间标记（显示在竖线右侧，无框，仅文字） */
+/* 时间标记（文字颜色在深色模式下需额外处理） */
 .timeline-marker {
   position: absolute;
-  left: -50px; /* 调整水平位置，让标记在竖线右侧，可根据实际微调 */
+  left: -50px;
   top: 0;
-  color: #007bff; /* 文字颜色，可按需修改 */
+  color: #007bff; /* 重要：时间标记颜色保持不变，无需适配深色模式 */
   font-size: 14px;
-  z-index: 2; /* 确保在主线等上层显示 */
-  background: none; /* 去掉背景色 */
-  border: none; /* 去掉边框 */
-  padding: 0; /* 去掉内边距 */
+  z-index: 2;
+  background: none;
+  border: none;
+  padding: 0;
 }
-
 
 /* 项目列表 */
 .timeline-items {
@@ -79,20 +78,20 @@
   margin-bottom: 15px;
 }
 
-/* GitHub风格项目卡片样式 */
+/* GitHub风格项目卡片样式（多处颜色改为变量） */
 .github-project-card {
-  border: 1px solid #eaecef;
+  border: 1px solid var(--global-border-color); /* 原 #eaecef */
   border-radius: 6px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  background-color: #ffffff;
+  box-shadow: var(--global-card-shadow); /* 原 0 1px 3px rgba(0, 0, 0, 0.05) */
+  background-color: var(--global-card-bg); /* 原 #ffffff */
   margin-bottom: 15px;
   transition: all 0.3s ease;
-  max-width: 540px; /* 卡片最长 600px，可按需改（如 500px、400px） */
-  width: 100%; /* 确保小屏幕下自动适应 */
+  max-width: 540px;
+  width: 100%;
 }
 
 .github-project-card:hover {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--global-card-hover-shadow); /* 原 0 4px 6px rgba(0, 0, 0, 0.1) */
   transform: translateY(-2px);
 }
 
@@ -101,29 +100,37 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 15px;
-  border-bottom: 1px solid #eaecef;
+  border-bottom: 1px solid var(--global-border-color); /* 原 #eaecef */
 }
 
 .project-title {
   font-weight: 600;
   font-size: 16px;
+  color: var(--global-text-color); /* 新增：文本颜色使用变量 */
   margin: 0;
 }
 
 .project-meta {
   font-size: 12px;
-  color: #586069;
+  color: var(--global-text-color); /* 原 #586069，深色模式需亮色 */
 }
 
 .project-label {
   display: inline-block;
-  padding: 2px 6px;
+  padding: 2px 6px; /* 增加水平内边距，使标签更长 */
   font-size: 11px;
   line-height: 14px;
-  border-radius: 3px;
-  background-color: #f3f4f6;
-  color: #24292e;
+  border-radius: 10px; /* 增大圆角半径，实现椭圆效果 */
+  background-color: var(--global-label-bg-color) ;
+  color: var(--global-link-color);
   margin-left: 5px;
+  transition: all 0.2s ease; /* 添加过渡动画 */
+}
+
+/* 鼠标悬停效果（可选） */
+.project-label:hover {
+  transform: scale(1.05); /* 悬停时轻微放大 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 轻微阴影 */
 }
 
 .project-body {
@@ -131,34 +138,34 @@
 }
 
 .project-description {
-  color: #6e7781;
+  color: var(--global-description-color); /* 原 #6e7781 */
   font-size: 14px;
   margin-bottom: 15px;
 }
 
 .project-meta-info {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 2px;
   font-size: 12px;
-  color: #586069;
+  color: var(--global-meta-info-color); /* 原 #586069 */
 }
 
 .meta-item {
   display: flex;
   align-items: center;
-  margin-right: 15px;
   margin-bottom: 5px;
 }
 
 .meta-icon {
   margin-right: 5px;
-  color: #6e7781;
+  color: var(--global-meta-info-color); /* 原 #6e7781 */
 }
 
 .language-color {
   display: inline-block;
   width: 12px;
   height: 12px;
-  border-radius: 2px;
+  border-radius: 50%;
   margin-right: 5px;
 }

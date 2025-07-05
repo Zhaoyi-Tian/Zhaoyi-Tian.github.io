@@ -51,4 +51,5 @@ html[data-theme="dark"] {
     --global-text-color                 : #{$text};
     --global-text-color-light           : #{$light-gray};
     --global-thead-color                : #{$background-lighter};
+    --global-label-bg-color             : #2c2c2c; /* 深色模式下的半透明背景 */
 }
