@@ -4,25 +4,35 @@ layout: archive
 permalink: /projects/
 ---
 
-{% comment %} 按年月分组项目 {% endcomment %}
+{% comment %} 按年月分组项目（不使用插件） {% endcomment %}
 {% assign sorted_projects = site.projects | sort: 'date' | reverse %}
-{% assign grouped_projects = sorted_projects | group_by_exp: "p", "p.date | date: '%Y-%m'" %}
+{% assign current_month = nil %}
 
 <div class="timeline-container">
-  {% for group in grouped_projects %}
-    {% comment %} 取分组的第一个项目的日期，用于显示月份 {% endcomment %}
-    {% assign first_project = group.items | first %}
-    <div class="timeline-group">
-      <!-- 时间轴标记（每个月只显示一次） -->
-      <div class="timeline-marker">
-        {{ first_project.date | date: "%Y-%m" }}
-      </div>
-      <!-- 该月份的所有项目 -->
-      <div class="timeline-items">
-        {% for project in group.items %}
-          {% include archive-single-project.html %}
-        {% endfor %}
-      </div>
-    </div>
-  {% endfor %}
+  {% for project in sorted_projects %}
+    {% assign project_month = project.date | date: '%Y-%m' %}
+    
+    {% comment %} 检查是否需要创建新的月份分组 {% endcomment %}
+    {% if project_month != current_month %}
+      {% comment %} 如果不是第一个分组，则关闭上一个分组的容器 {% endcomment %}
+      {% if current_month != nil %}</div></div>{% endif %}
+      
+      {% comment %} 创建新的月份分组 {% endcomment %}
+      <div class="timeline-group">
+        <div class="timeline-marker">
+          {{ project_month }}
+        </div>
+        <div class="timeline-items">
+      
+      {% comment %} 更新当前月份标记 {% endcomment %}
+      {% assign current_month = project_month %}
+    {% endif %}
+    
+    {% comment %} 渲染项目内容 {% endcomment %}
+    {% include archive-single-project.html %}
+    
+  {% endfor %}
+  
+  {% comment %} 关闭最后一个分组的容器 {% endcomment %}
+  </div></div>
 </div>
