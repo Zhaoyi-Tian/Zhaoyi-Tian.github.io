@@ -13,52 +13,54 @@
   {% assign title = project.title %}
 {% endif %}
 
-<!-- 必须保留 GitHub 卡片的容器结构 -->
+<!-- 项目卡片容器 -->
 <div class="col-12 col-md-6 col-lg-4 mb-4">
-  <div class="github-project-card d-flex flex-column width-full">
-    <div class="github-project-header">
-      <h2 class="project-title">
-        {% if project.link %}
-          <a href="{{ project.link }}" class="text-bold">{{ title }}</a>
-        {% else %}
-          <a href="{{ base_path }}{{ project.url }}" class="text-bold">{{ title }}</a>
-        {% endif %}
-      </h2>
-      <span class="project-meta">
-        {% if project.status %}
-          <span class="project-label">{{ project.status }}</span>
-        {% else %}
-          <span class="project-label">Public</span>
-        {% endif %}
-      </span>
+  <div class="github-project-card">
+    {% if project.image %}
+    <div class="project-background-container">
+      <img src="{{ project.image }}" alt="{{ title }}" class="project-background-image">
+      <div class="project-background-gradient"></div>
     </div>
+    {% endif %}
     
-    <div class="project-body">
-      <p class="project-description">
-        {{ project.description | markdownify | strip_html | truncate: 150 }}
-      </p>
+    <div class="project-content-overlay">
+      <div class="github-project-header">
+        <h2 class="project-title">
+          {% if project.link %}
+            <a href="{{ project.link }}" class="text-bold">{{ title }}</a>
+          {% else %}
+            <a href="{{ base_path }}{{ project.url }}" class="text-bold">{{ title }}</a>
+          {% endif %}
+        </h2>
+      </div>
       
-      <div class="project-meta-info">
-        {% if project.language %}
-          <div class="meta-item">
-            <span class="language-color" style="background-color: {{ project.language_color | default: '#cccccc' }}"></span>
-            <span>{{ project.language }}</span>
-          </div>
-        {% endif %}
+      <div class="project-body">
+        <p class="project-description">
+          {{ project.description | markdownify | strip_html | truncate: 150 }}
+        </p>
         
-        {% if project.stars %}
-          <div class="meta-item">
-            <i class="fa fa-star meta-icon" aria-hidden="true"></i>
-            <span>{{ project.stars }}</span>
-          </div>
-        {% endif %}
-        
-        {% if project.date %}
-          <div class="meta-item">
-            <i class="fa fa-calendar meta-icon" aria-hidden="true"></i>
-            <span>{{ project.date | date: "%Y-%m-%d" }}</span>
-          </div>
-        {% endif %}
+        <div class="project-meta-info">
+          {% if project.language %}
+            <div class="meta-item">
+              <span class="language-color" style="background-color: {{ project.language_color | default: '#cccccc' }}"></span>
+              <span>{{ project.language }}</span>
+            </div>
+          {% endif %}
+          
+          {% if project.stars %}
+            <div class="meta-item">
+              <i class="fa fa-star meta-icon" aria-hidden="true"></i>
+              <span>{{ project.stars }}</span>
+            </div>
+          {% endif %}
+          
+          {% if project.date %}
+            <div class="meta-item">
+              <i class="fa fa-calendar meta-icon" aria-hidden="true"></i>
+              <span>{{ project.date | date: "%Y-%m-%d" }}</span>
+            </div>
+          {% endif %}
+        </div>
       </div>
     </div>
   </div>
