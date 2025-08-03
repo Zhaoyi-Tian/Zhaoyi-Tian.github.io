@@ -1,0 +1,20 @@
+{% comment %}
+精选项目展示组件
+自动从项目集合中筛选出 featured: true 的项目并按日期排序显示
+使用与projects页面相同的卡片样式
+{% endcomment %}
+
+{% include base_path %}
+
+<!-- 精选项目容器 -->
+<div class="featured-projects">
+  {% assign featured_projects = site.projects | where: "featured", true | sort: "date" | reverse %}
+  
+  {% if featured_projects.size > 0 %}
+    {% for project in featured_projects %}
+      {% include archive-single-project.html %}
+    {% endfor %}
+  {% else %}
+    <p>暂无精选项目，请在项目文件的YAML头部设置 <code>featured: true</code> 来添加精选项目。</p>
+  {% endif %}
+</div>

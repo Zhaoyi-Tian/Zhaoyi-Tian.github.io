@@ -1,0 +1,83 @@
+{% comment %}
+博客文章卡片展示组件
+使用与项目卡片相似的 GitHub 风格设计
+支持置顶功能
+{% endcomment %}
+
+{% include base_path %}
+
+{% if post.header.teaser %}
+  {% capture teaser %}{{ post.header.teaser }}{% endcapture %}
+{% else %}
+  {% assign teaser = site.teaser %}
+{% endif %}
+
+{% if post.id %}
+  {% comment %} 直接使用原始标题，避免 markdownify 解析为 HTML {% endcomment %}
+  {% assign title = post.title %}
+{% else %}
+  {% assign title = post.title %}
+{% endif %}
+
+<!-- 博客文章卡片容器 -->
+<div class="post-card">
+  <div class="github-post-card{% if post.pinned %} pinned{% endif %}">
+    {% if post.image %}
+    <img src="{{ post.image }}" alt="{{ title }}" class="post-decoration-image">
+    {% endif %}
+    
+    <div class="post-content">
+      <div class="github-post-header">
+        {% if post.pinned %}
+        <div class="pinned-indicator">
+          <i class="fa fa-thumbtack" aria-hidden="true"></i>
+          <span>置顶</span>
+        </div>
+        {% endif %}
+        <h2 class="post-title">
+          {% if post.link %}
+            <a href="{{ post.link }}" class="text-bold">{{ title }}</a>
+          {% else %}
+            <a href="{{ base_path }}{{ post.url }}" class="text-bold">{{ title }}</a>
+          {% endif %}
+        </h2>
+      </div>
+      
+      <div class="post-body">
+        <p class="post-description">
+          {% if post.excerpt %}
+            {{ post.excerpt | markdownify | strip_html | truncate: 150 }}
+          {% else %}
+            {{ post.content | markdownify | strip_html | truncate: 150 }}
+          {% endif %}
+        </p>
+        
+        <div class="post-meta-info">
+          {% if post.date %}
+            <div class="meta-item">
+              <i class="fa fa-calendar meta-icon" aria-hidden="true"></i>
+              <span>{{ post.date | date: "%Y-%m-%d" }}</span>
+            </div>
+          {% endif %}
+          
+          {% if post.tags and post.tags.size > 0 %}
+            <div class="meta-item">
+              <i class="fa fa-tags meta-icon" aria-hidden="true"></i>
+              <span>{{ post.tags | first }}</span>
+              {% if post.tags.size > 1 %}
+                <span class="tag-count">+{{ post.tags.size | minus: 1 }}</span>
+              {% endif %}
+            </div>
+          {% endif %}
+          
+          {% if post.read_time %}
+            <div class="meta-item">
+              <i class="fa fa-clock meta-icon" aria-hidden="true"></i>
+              <span>{% include read-time.html %}</span>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

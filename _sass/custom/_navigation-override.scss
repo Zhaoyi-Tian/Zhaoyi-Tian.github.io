@@ -1,0 +1,84 @@
+/* ==========================================================================
+   NAVIGATION BAR CUSTOMIZATION
+   ========================================================================== */
+
+/*
+ * 这个文件包含了所有导航栏的自定义样式和配置
+ * 主要功能：
+ * 1. 导航栏布局调整（首页在左，其他项在右）
+ * 2. 禁用下拉菜单功能
+ * 3. 强制显示所有导航项
+ * 4. 响应式设计适配
+ */
+
+/* 配置变量 */
+:root {
+  --nav-item-spacing: 1rem;
+  --nav-mobile-breakpoint: 768px;
+}
+
+/* 主要导航栏布局 */
+.greedy-nav .visible-links {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  width: 100% !important;
+  table-layout: auto !important;
+}
+
+/* 首页链接定位到左侧 */
+.greedy-nav .visible-links li:first-child {
+  margin-right: auto;
+}
+
+/* 其他导航项的间距 */
+.greedy-nav .visible-links li:not(:first-child) {
+  margin-left: 0;
+}
+
+.greedy-nav .visible-links li:nth-child(n+2):not(.persist.tail) {
+  margin-left: var(--nav-item-spacing);
+}
+
+/* 强制显示所有导航项，防止JavaScript将其移动到下拉菜单 */
+.greedy-nav {
+  min-width: auto !important;
+}
+
+.greedy-nav .visible-links li {
+  display: table-cell !important;
+  white-space: nowrap;
+  position: static !important;
+}
+
+/* 完全禁用下拉菜单功能 */
+.greedy-nav button {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+.greedy-nav .hidden-links {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* 响应式设计 - 移动端适配 */
+@media (max-width: 768px) {
+  .greedy-nav .visible-links {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  
+  .greedy-nav .visible-links li:first-child {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    margin-right: 0;
+  }
+  
+  .greedy-nav .visible-links li:not(:first-child) {
+    flex: 1;
+    text-align: center;
+    margin-left: 0;
+  }
+}
