@@ -1,0 +1,276 @@
+<div class="toc-heading">
+  <h2 class="font-semibold">目录</h2>
+  <ul class="toc-list max-h-[70vh] mt-4 overflow-y-scroll text-card-foreground" id="smooth-toc-list">
+    <!-- 目录项将由JavaScript动态生成 -->
+  </ul>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('TOC: 开始初始化');
+  
+  const tocList = document.getElementById('smooth-toc-list');
+  const headings = document.querySelectorAll('.page__content h2, .page__content h3');
+  
+  console.log('TOC: 找到的标题数量:', headings.length);
+  console.log('TOC: 标题列表:', Array.from(headings).map(h => h.textContent.trim()));
+  
+  if (!tocList || headings.length === 0) {
+    console.log('TOC: 未找到容器或标题，退出');
+    return;
+  }
+
+  // 生成目录结构
+  const tocData = generateTocData(headings);
+  console.log('TOC: 生成的目录数据:', tocData);
+  renderToc(tocData, tocList);
+
+  // 初始化滚动监听
+  initScrollSpy();
+});
+
+function generateTocData(headings) {
+  const tocData = [];
+  const stack = [];
+
+  headings.forEach((heading, index) => {
+    const level = parseInt(heading.tagName.charAt(1));
+    const id = heading.id || `heading-${index}`;
+    
+    if (!heading.id) {
+      heading.id = id;
+    }
+
+    const item = {
+      id: id,
+      text: heading.textContent.trim(),
+      level: level,
+      element: heading,
+      children: []
+    };
+
+    // 构建层级结构
+    while (stack.length > 0 && stack[stack.length - 1].level >= level) {
+      stack.pop();
+    }
+
+    if (stack.length === 0) {
+      tocData.push(item);
+    } else {
+      stack[stack.length - 1].children.push(item);
+    }
+
+    stack.push(item);
+  });
+
+  return tocData;
+}
+
+function renderToc(tocData, container) {
+  container.innerHTML = '';
+  
+  function renderItem(item, isNested = false) {
+    const li = document.createElement('li');
+    
+    const div = document.createElement('div');
+    div.className = 'relative';
+    
+    // 进度条
+    const progressBar = document.createElement('span');
+    progressBar.className = 'transition-colors duration-300 [&.highlight-bg]:bg-primary [&.readed]:bg-input absolute rounded top-[5%] w-[2px]';
+    progressBar.style.height = '0%';
+    progressBar.setAttribute('data-progress', item.id);
+    
+    // 链接
+    const link = document.createElement('a');
+    link.href = `#${item.id}`;
+    
+    // 根据标题级别添加不同的样式类
+    let linkClass = `transition-all py-1 [&.highlight-bg-translucent]:bg-muted [&.highlight]:font-medium [&.highlight]:text-primary [&.readed]:text-input flex-1 hover:text-foreground line-clamp-2 ms-2 px-3 text-foreground/75`;
+    
+    if (item.level === 2) {
+      linkClass += ' toc-h2';
+    } else if (item.level === 3) {
+      linkClass += ' toc-h3';
+    }
+    
+    if (isNested) {
+      linkClass += ' ps-7';
+    }
+    
+    link.className = linkClass;
+    link.textContent = item.text;
+    link.setAttribute('aria-label', `Scroll to section: ${item.text}`);
+    link.setAttribute('data-target', item.id);
+    
+    // 点击事件
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.getElementById(item.id);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+    
+    div.appendChild(progressBar);
+    div.appendChild(link);
+    li.appendChild(div);
+    
+    // 渲染子项
+    if (item.children.length > 0) {
+      const childList = document.createElement('ul');
+      item.children.forEach(child => {
+        childList.appendChild(renderItem(child, true));
+      });
+      li.appendChild(childList);
+    }
+    
+    return li;
+  }
+  
+  tocData.forEach(item => {
+    container.appendChild(renderItem(item));
+  });
+  
+  console.log('TOC: 目录渲染完成');
+}
+
+function initScrollSpy() {
+  const headings = Array.from(document.querySelectorAll('.page__content h2, .page__content h3')).filter(h => h.id);
+  const tocLinks = document.querySelectorAll('[data-target]');
+  const progressBars = document.querySelectorAll('[data-progress]');
+  
+  console.log('TOC: 滚动监听初始化 - 标题数量:', headings.length, '链接数量:', tocLinks.length);
+  
+  if (headings.length === 0) return;
+
+  let ticking = false;
+
+  function updateToc() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const windowHeight = window.innerHeight;
+    
+    // 计算当前可见的标题
+    const visibleHeadings = headings.filter(heading => {
+      const rect = heading.getBoundingClientRect();
+      return rect.top <= windowHeight * 0.3; // 标题进入视口上方30%时认为已读
+    });
+
+    // 重置所有状态
+    tocLinks.forEach(link => {
+      link.classList.remove('highlight', 'highlight-bg-translucent', 'readed');
+    });
+    
+    progressBars.forEach(bar => {
+      bar.classList.remove('highlight-bg', 'readed');
+      bar.style.height = '0%';
+    });
+
+    if (visibleHeadings.length > 0) {
+      const currentHeading = visibleHeadings[visibleHeadings.length - 1];
+      const currentId = currentHeading.id;
+      
+      // 标记已读的标题
+      visibleHeadings.forEach((heading, index) => {
+        const link = document.querySelector(`[data-target="${heading.id}"]`);
+        const progressBar = document.querySelector(`[data-progress="${heading.id}"]`);
+        
+        if (link && progressBar) {
+          if (heading === currentHeading) {
+            // 当前标题高亮
+            link.classList.add('highlight', 'highlight-bg-translucent');
+            progressBar.classList.add('highlight-bg');
+            
+            // 计算当前标题的阅读进度
+            const nextHeading = headings[headings.indexOf(heading) + 1];
+            let progress = 90; // 默认90%
+            
+            if (nextHeading) {
+              const nextRect = nextHeading.getBoundingClientRect();
+              const currentRect = heading.getBoundingClientRect();
+              const sectionHeight = Math.abs(nextRect.top - currentRect.top);
+              const readHeight = Math.abs(-currentRect.top);
+              if (sectionHeight > 0) {
+                progress = Math.min(90, Math.max(0, (readHeight / sectionHeight) * 90));
+              }
+            }
+            
+            progressBar.style.height = `${progress}%`;
+          } else {
+            // 已读标题
+            link.classList.add('readed');
+            progressBar.classList.add('readed');
+            progressBar.style.height = '90%';
+          }
+        }
+      });
+
+      // 处理嵌套结构的圆角效果
+      updateNestedRoundedCorners(currentId);
+    }
+
+    ticking = false;
+  }
+
+  function updateNestedRoundedCorners(currentId) {
+    const allLinks = document.querySelectorAll('[data-target]');
+    
+    // 重置所有圆角
+    allLinks.forEach(link => {
+      link.classList.remove('rounded-t-2xl', 'rounded-b-2xl');
+    });
+
+    // 找到当前高亮项及其相邻项
+    const currentLink = document.querySelector(`[data-target="${currentId}"]`);
+    if (!currentLink || !currentLink.classList.contains('highlight')) return;
+
+    const currentLi = currentLink.closest('li');
+    const parentUl = currentLi.parentElement;
+    const siblings = Array.from(parentUl.children);
+    const currentIndex = siblings.indexOf(currentLi);
+
+    // 检查是否为连续高亮区域的第一个或最后一个
+    let isFirst = true;
+    let isLast = true;
+
+    // 检查前一个兄弟
+    if (currentIndex > 0) {
+      const prevLink = siblings[currentIndex - 1].querySelector('[data-target]');
+      if (prevLink && (prevLink.classList.contains('highlight') || prevLink.classList.contains('highlight-bg-translucent'))) {
+        isFirst = false;
+      }
+    }
+
+    // 检查后一个兄弟
+    if (currentIndex < siblings.length - 1) {
+      const nextLink = siblings[currentIndex + 1].querySelector('[data-target]');
+      if (nextLink && (nextLink.classList.contains('highlight') || nextLink.classList.contains('highlight-bg-translucent'))) {
+        isLast = false;
+      }
+    }
+
+    // 应用圆角
+    if (isFirst) {
+      currentLink.classList.add('rounded-t-2xl');
+    }
+    if (isLast) {
+      currentLink.classList.add('rounded-b-2xl');
+    }
+  }
+
+  function requestTick() {
+    if (!ticking) {
+      requestAnimationFrame(updateToc);
+      ticking = true;
+    }
+  }
+
+  // 监听滚动事件
+  window.addEventListener('scroll', requestTick, { passive: true });
+  
+  // 初始更新
+  setTimeout(updateToc, 100); // 延迟执行确保页面完全加载
+  
+  console.log('TOC: 滚动监听设置完成');
+}
+</script>

@@ -809,6 +809,369 @@
   border-color: var(--global-border-color);
 }
 
+/* 丝滑目录样式 - 基于用户提供的设计，只显示h2和h3，h2和h3有视觉区别 */
+.toc-heading {
+  font-family: Satoshi, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  
+  .font-semibold {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin: 0 0 1rem 0;
+    color: var(--global-text-color);
+    border: none !important;
+    border-bottom: none !important;
+    padding-bottom: 0;
+  }
+  
+  .max-h-\[70vh\] {
+    max-height: 70vh;
+  }
+  
+  .mt-4 {
+    margin-top: 1rem;
+  }
+  
+  .overflow-y-scroll {
+    overflow-y: auto;
+    /* 隐藏滚动条 */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+    
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  
+  .text-card-foreground {
+    color: var(--global-text-color);
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    li {
+      position: relative;
+      margin-bottom: 4px;
+      
+      .relative {
+        position: relative;
+        
+        span {
+          position: absolute;
+          left: 8px;
+          top: 5%;
+          width: 2px;
+          border-radius: 1px;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          background-color: transparent;
+          z-index: 1;
+          
+          &.highlight-bg {
+            background-color: hsl(var(--primary, 200 29% 45%));
+          }
+          
+          &.readed {
+            background-color: hsl(var(--input, 240 5.9% 90%));
+          }
+        }
+        
+        a {
+          display: flex;
+          align-items: center;
+          padding: 4px 8px;
+          margin-left: 16px;
+          color: hsl(var(--foreground, 240 10% 3.9%) / 0.75);
+          text-decoration: none;
+          font-size: 14px;
+          line-height: 1.4;
+          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+          position: relative;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          flex: 1;
+          border-radius: 4px;
+          
+          &:hover {
+            color: hsl(var(--foreground, 240 10% 3.9%));
+          }
+          
+          &.highlight {
+            font-weight: 500;
+            color: hsl(var(--primary, 200 29% 45%));
+          }
+          
+          &.highlight-bg-translucent {
+            background-color: hsl(var(--muted, 240 4.8% 95%));
+          }
+          
+          &.readed {
+            color: hsl(var(--input, 240 5.9% 90%));
+          }
+          
+          &.rounded-t-2xl {
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+          }
+          
+          &.rounded-b-2xl {
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
+          }
+          
+          &.ps-7 {
+            padding-left: 28px;
+          }
+          
+          &.ms-2 {
+            margin-left: 8px;
+          }
+          
+          &.px-3 {
+            padding-left: 12px;
+            padding-right: 12px;
+          }
+          
+          &.py-1 {
+            padding-top: 4px;
+            padding-bottom: 4px;
+          }
+          
+          &.line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+          }
+          
+          /* h2 标题样式 - 主要章节，更大更醒目 */
+          &.toc-h2 {
+            font-size: 15px;
+            font-weight: 600;
+            color: hsl(var(--foreground, 240 10% 3.9%) / 0.9);
+            margin-left: 12px;
+            padding: 6px 12px;
+            
+            &.highlight {
+              font-weight: 700;
+              color: hsl(var(--primary, 200 29% 45%));
+            }
+            
+            &:hover {
+              color: hsl(var(--foreground, 240 10% 3.9%));
+            }
+          }
+          
+          /* h3 标题样式 - 子章节，略小且有缩进 */
+          &.toc-h3 {
+            font-size: 13px;
+            font-weight: 400;
+            color: hsl(var(--foreground, 240 10% 3.9%) / 0.65);
+            margin-left: 32px;
+            padding: 4px 8px;
+            padding-left: 16px;
+            
+            &.highlight {
+              font-weight: 500;
+              color: hsl(var(--primary, 200 29% 45%) / 0.9);
+            }
+            
+            &:hover {
+              color: hsl(var(--foreground, 240 10% 3.9%) / 0.85);
+            }
+          }
+        }
+      }
+      
+      /* 嵌套列表样式 */
+      ul {
+        margin-top: 2px;
+        
+        li {
+          margin-bottom: 2px;
+          
+          .relative {
+            span {
+              left: 24px; /* h3 标题的进度条位置调整 */
+            }
+            
+            a {
+              margin-left: 40px;
+              font-size: 13px;
+              padding-left: 20px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .toc-heading {
+  .font-semibold {
+    color: var(--global-text-color);
+  }
+  
+  .text-card-foreground {
+    color: var(--global-text-color);
+  }
+  
+  ul li .relative a {
+    color: hsl(var(--foreground, 240 10% 3.9%) / 0.75);
+    
+    &:hover {
+      color: hsl(var(--foreground, 240 10% 3.9%));
+    }
+    
+    &.highlight {
+      color: hsl(var(--primary, 200 29% 45%));
+    }
+    
+    &.highlight-bg-translucent {
+      background-color: hsl(var(--muted, 240 4.8% 95%));
+    }
+    
+    &.readed {
+      color: hsl(var(--input, 240 5.9% 90%));
+    }
+    
+    /* 深色模式下的 h2 标题样式 */
+    &.toc-h2 {
+      color: hsl(var(--foreground, 240 10% 3.9%) / 0.9);
+      
+      &.highlight {
+        color: hsl(var(--primary, 200 29% 45%));
+      }
+      
+      &:hover {
+        color: hsl(var(--foreground, 240 10% 3.9%));
+      }
+    }
+    
+    /* 深色模式下的 h3 标题样式 */
+    &.toc-h3 {
+      color: hsl(var(--foreground, 240 10% 3.9%) / 0.6);
+      
+      &.highlight {
+        color: hsl(var(--primary, 200 29% 45%) / 0.9);
+      }
+      
+      &:hover {
+        color: hsl(var(--foreground, 240 10% 3.9%) / 0.8);
+      }
+    }
+  }
+}
+
+/* 推荐阅读卡片样式 - 使用简洁的原生样式 */
+.page__related {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--global-border-color);
+  clear: both;
+}
+
+.page__related-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--global-text-color);
+}
+
+.grid__wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.grid__item {
+  /* 移除自定义样式，使用简洁的原生样式 */
+}
+
+.grid__item .archive__item {
+  /* 保持原生样式 */
+}
+
+.grid__item .archive__item-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  line-height: 1.3;
+}
+
+.grid__item .archive__item-title a {
+  color: var(--global-link-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.grid__item .archive__item-title a:hover {
+  color: var(--global-link-color-hover);
+  text-decoration: underline;
+}
+
+.grid__item .page__meta {
+  font-size: 0.8rem;
+  color: var(--global-text-color-light);
+  margin: 0 0 0.5rem 0;
+}
+
+.grid__item .page__date {
+  font-size: 0.8rem;
+  color: var(--global-text-color-light);
+  margin: 0 0 1rem 0;
+}
+
+.grid__item .archive__item-excerpt {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--global-text-color);
+  margin: 0;
+  /* 限制摘要长度，但保持自然的文本流 */
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 其他段落样式 */
+.grid__item p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--global-text-color);
+  margin: 0.5rem 0;
+}
+
+.grid__item p a {
+  color: var(--global-link-color);
+  text-decoration: none;
+}
+
+.grid__item p a:hover {
+  color: var(--global-link-color-hover);
+  text-decoration: underline;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .grid__wrapper {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .grid__item .archive__item-title {
+    font-size: 1.2rem;
+  }
+  
+  .grid__item .archive__item-excerpt {
+    -webkit-line-clamp: 3;
+  }
+}
+
 /* 博客文章卡片样式 - 参考项目卡片设计 */
 .blog-container {
   max-width: 1200px;
