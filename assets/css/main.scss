@@ -1020,47 +1020,49 @@
   }
   
   ul li .relative a {
-    color: hsl(var(--foreground, 240 10% 3.9%) / 0.75);
+    color: var(--global-text-color-light);
     
     &:hover {
-      color: hsl(var(--foreground, 240 10% 3.9%));
+      color: var(--global-text-color);
     }
     
     &.highlight {
-      color: hsl(var(--primary, 200 29% 45%));
+      color: var(--global-link-color);
     }
     
     &.highlight-bg-translucent {
-      background-color: hsl(var(--muted, 240 4.8% 95%));
+      background-color: var(--global-label-bg-color);
     }
     
     &.readed {
-      color: hsl(var(--input, 240 5.9% 90%));
+      color: var(--global-text-color-light);
+      opacity: 0.6;
     }
     
     /* 深色模式下的 h2 标题样式 */
     &.toc-h2 {
-      color: hsl(var(--foreground, 240 10% 3.9%) / 0.9);
+      color: var(--global-text-color);
       
       &.highlight {
-        color: hsl(var(--primary, 200 29% 45%));
+        color: var(--global-link-color);
       }
       
       &:hover {
-        color: hsl(var(--foreground, 240 10% 3.9%));
+        color: var(--global-text-color);
       }
     }
     
     /* 深色模式下的 h3 标题样式 */
     &.toc-h3 {
-      color: hsl(var(--foreground, 240 10% 3.9%) / 0.6);
+      color: var(--global-text-color-light);
       
       &.highlight {
-        color: hsl(var(--primary, 200 29% 45%) / 0.9);
+        color: var(--global-link-color);
+        opacity: 0.9;
       }
       
       &:hover {
-        color: hsl(var(--foreground, 240 10% 3.9%) / 0.8);
+        color: var(--global-text-color);
       }
     }
   }
@@ -1098,7 +1100,7 @@
 .grid__item .archive__item-title {
   font-size: 1.3rem;
   font-weight: 600;
-  margin: 0 0 1rem 0;
+  margin: 0 0 0rem 0;
   line-height: 1.3;
 }
 
@@ -1116,13 +1118,13 @@
 .grid__item .page__meta {
   font-size: 0.8rem;
   color: var(--global-text-color-light);
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 0.3rem 0;
 }
 
 .grid__item .page__date {
   font-size: 0.8rem;
   color: var(--global-text-color-light);
-  margin: 0 0 1rem 0;
+  margin: 0 0 0.3rem 0;
 }
 
 .grid__item .archive__item-excerpt {
