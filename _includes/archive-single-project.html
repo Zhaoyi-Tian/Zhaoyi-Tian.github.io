@@ -17,13 +17,10 @@
 <div class="col-12 col-md-6 col-lg-4 mb-4">
   <div class="github-project-card">
     {% if project.image %}
-    <div class="project-background-container">
-      <img src="{{ project.image }}" alt="{{ title }}" class="project-background-image">
-      <div class="project-background-gradient"></div>
-    </div>
+    <img src="{{ project.image }}" alt="{{ title }}" class="project-decoration-image">
     {% endif %}
     
-    <div class="project-content-overlay">
+    <div class="project-content">
       <div class="github-project-header">
         <h2 class="project-title">
           {% if project.link %}
