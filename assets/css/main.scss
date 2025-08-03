@@ -41,41 +41,151 @@
     "vendor/font-awesome/brands"
 ;
 
-.timeline-container {
-  position: relative;
-  padding-left: 60px;
-  border-left: 2px solid #eaecef; /* 原 #eaecef */
+/* 现代化时间轴样式 */
+.modern-timeline-container {
   margin: 20px 0;
 }
 
-/* 月份分组容器 */
-.timeline-group {
-  position: relative;
-  margin-bottom: 30px;
-}
-
-/* 时间标记（文字颜色在深色模式下需额外处理） */
-.timeline-marker {
-  position: absolute;
-  left: -50px;
-  top: 0;
-  color: #007bff; /* 重要：时间标记颜色保持不变，无需适配深色模式 */
-  font-size: 14px;
-  z-index: 2;
-  background: none;
-  border: none;
+.modern-timeline-list {
+  list-style: none;
   padding: 0;
+  margin: 0;
 }
 
-/* 项目列表 */
-.timeline-items {
-  margin-left: 20px;
-  padding-left: 20px;
+.timeline-item {
+  position: relative;
+  display: flex;
+  gap: 0.75rem;
+  list-style: none;
+  padding: 0;
+  border-radius: 9999px;
+  margin: 0.5em 0;
+}
+
+/* 圆形时间节点 */
+.timeline-dot {
+  margin-left: 0.5rem;
+  border: 2px solid #6b7280; /* 深灰色边框 */
+  height: 0.75rem;
+  min-width: 0.75rem;
+  width: 0.75rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  z-index: 10;
+  background-color: var(--global-card-bg, #ffffff);
+  flex-shrink: 0;
+}
+
+/* 深色模式下的时间节点 */
+[data-theme="dark"] .timeline-dot {
+  border-color: #9ca3af; /* 深色模式下使用更亮的灰色 */
+  background-color: var(--global-card-bg);
+}
+
+.timeline-item:hover .timeline-dot {
+  transform: scale(1.25);
+}
+
+/* 连接线 */
+.timeline-connector {
+  position: absolute;
+  background-color: var(--global-border-color, #e5e7eb);
+  left: 13px; /* 调整为与圆点中心对齐 */
+  top: 20px;
+  width: 0.25rem;
+  height: calc(100% - 4px);
+}
+
+/* 最后一个元素不显示连接线 */
+.timeline-item:last-child .timeline-connector {
+  display: none;
+}
+
+/* 内容区域 */
+.timeline-content-wrapper {
+  display: flex;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+/* 时间标签 - 简洁设计，年月分离 */
+.timeline-date-simple {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 80px;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+}
+
+/* 年份 - 弱化显示 */
+.date-year-small {
+  font-size: 0.75rem;
+  color: var(--global-meta-info-color, #9ca3af);
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 2px;
+  opacity: 0.7;
+}
+
+/* 月份 - 突出显示，与项目标题呼应 */
+.date-month-large {
+  font-size: 1.1rem;
+  color: #257ade; /* 与项目标题同色 */
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.3px;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .date-year-small {
+  color: var(--global-meta-info-color);
+  opacity: 0.6;
+}
+
+[data-theme="dark"] .date-month-large {
+  color: #4a9eff; /* 深色模式下稍亮一些的蓝色 */
+}
+
+/* 项目内容区域 */
+.timeline-projects {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 /* 项目卡片 */
 .project-card {
-  margin-bottom: 15px;
+  margin-bottom: 0; /* 在时间轴中使用gap代替margin */
+}
+
+/* 响应式设计 */
+@media (max-width: 640px) {
+  .timeline-content-wrapper {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .timeline-date-simple {
+    align-self: flex-start;
+    min-width: auto;
+  }
+  
+  .date-year-small {
+    font-size: 0.7rem;
+  }
+  
+  .date-month-large {
+    font-size: 1rem;
+  }
+  
+  .timeline-projects {
+    gap: 0.75rem;
+  }
 }
 
 /* GitHub风格项目卡片样式（多处颜色改为变量） */
@@ -86,7 +196,7 @@
   background-color: var(--global-card-bg); /* 原 #ffffff */
   margin-bottom: 15px;
   transition: all 0.3s ease;
-  max-width: 540px;
+  max-width: 540px; /* 恢复原始最大宽度 */
   width: 100%;
   position: relative;
   overflow: hidden;

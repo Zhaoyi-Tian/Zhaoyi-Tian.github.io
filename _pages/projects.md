@@ -4,38 +4,45 @@ layout: archive
 permalink: /projects/
 ---
 
-{% comment %} 按年月分组项目（彻底修复嵌套） {% endcomment %}
+{% comment %} 按年月分组项目 {% endcomment %}
 {% assign sorted_projects = site.projects | sort: 'date' | reverse %}
-{% assign current_month = nil %}
+{% assign grouped_projects = sorted_projects | group_by_exp: 'project', 'project.date | date: "%Y-%m"' %}
 
-<div class="timeline-container">
-  {% for project in sorted_projects %}
-    {% assign project_month = project.date | date: '%Y-%m' %}
-    
-    {% comment %} 新建分组：关闭旧分组 → 开新分组 {% endcomment %}
-    {% if project_month != current_month %}
-      {% comment %} 关闭上一个分组（如果存在） {% endcomment %}
-      {% if current_month %}
-        </div> <!-- 关闭 .timeline-items -->
-      </div> <!-- 关闭 .timeline-group -->
-      {% endif %}
-      
-      {% comment %} 新建分组容器 {% endcomment %}
-      <div class="timeline-group">
-        <div class="timeline-marker">
-          {{ project_month }}
+<div class="modern-timeline-container">
+  <ul class="modern-timeline-list">
+    {% for group in grouped_projects %}
+      <li class="timeline-item">
+        <span class="timeline-dot"></span>
+        <span class="timeline-connector"></span>
+        <div class="timeline-content-wrapper">
+          <div class="timeline-date-simple">
+            {% assign date_parts = group.name | split: '-' %}
+            <span class="date-year-small">{{ date_parts[0] }}</span>
+            <span class="date-month-large">
+              {% assign month_num = date_parts[1] | plus: 0 %}
+              {% case month_num %}
+                {% when 1 %}一月
+                {% when 2 %}二月
+                {% when 3 %}三月
+                {% when 4 %}四月
+                {% when 5 %}五月
+                {% when 6 %}六月
+                {% when 7 %}七月
+                {% when 8 %}八月
+                {% when 9 %}九月
+                {% when 10 %}十月
+                {% when 11 %}十一月
+                {% when 12 %}十二月
+              {% endcase %}
+            </span>
+          </div>
+          <div class="timeline-projects">
+            {% for project in group.items %}
+              {% include archive-single-project.html %}
+            {% endfor %}
+          </div>
         </div>
-        <div class="timeline-items">
-    {% endif %}
-    
-    {% comment %} 渲染项目卡片（关键：移除 markdownify 避免标题解析） {% endcomment %}
-    {% include archive-single-project.html %}
-    
-    {% comment %} 更新当前月份 {% endcomment %}
-    {% assign current_month = project_month %}
-  {% endfor %}
-  
-  {% comment %} 关闭最后一个分组 {% endcomment %}
-  </div> <!-- 关闭 .timeline-items -->
-</div> <!-- 关闭 .timeline-group -->
-</div> <!-- 关闭 .timeline-container -->
+      </li>
+    {% endfor %}
+  </ul>
+</div>
