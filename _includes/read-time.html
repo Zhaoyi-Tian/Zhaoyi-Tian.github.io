@@ -1,16 +1,19 @@
 {% if post.read_time %}
-  {% assign words = post.content | strip_html | number_of_words %}
+  {% assign content_length = post.content | strip_html | size %}
 {% elsif page.read_time %}
-  {% assign words = page.content | strip_html | number_of_words %}
+  {% assign content_length = page.content | strip_html | size %}
 {% endif %}
 
 {% if site.words_per_minute %}
-  {% if words < 180 %}
+  {% comment %} 使用字符数除以平均字符数来估算中文字数，比Jekyll的number_of_words更准确 {% endcomment %}
+  {% assign estimated_words = content_length | divided_by: 1.5 %}
+  {% assign read_minutes = estimated_words | divided_by: site.words_per_minute %}
+  {% if estimated_words < site.words_per_minute %}
 	  {{ site.data.ui-text[site.locale].less_than | default: "少于" }} 1 {{ site.data.ui-text[site.locale].minute_read | default: "分钟阅读" }}
-	{% elsif words < 360 %}
+	{% elsif read_minutes == 1 %}
 	  1 {{ site.data.ui-text[site.locale].minute_read | default: "分钟阅读" }}
 	{% else %}
-	  {{ words | divided_by:site.words_per_minute }} {{ site.data.ui-text[site.locale].minute_read | default: "分钟阅读" }}
+	  {{ read_minutes | round }} {{ site.data.ui-text[site.locale].minute_read | default: "分钟阅读" }}
 	{% endif %}
 {% else %}
   {{ site.data.ui-text[site.locale].undefined_wpm | default: "配置文件中缺少words_per_minute参数" }}

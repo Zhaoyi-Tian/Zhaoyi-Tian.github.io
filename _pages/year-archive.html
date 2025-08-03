@@ -24,7 +24,7 @@ redirect_from:
   {% endif %}
 
   {% comment %} 按年月分组显示普通文章 {% endcomment %}
-  {% assign regular_posts = site.posts | where: "pinned", nil | sort: 'date' | reverse %}
+  {% assign regular_posts = site.posts | where_exp: "post", "post.pinned != true" | sort: 'date' | reverse %}
   {% assign grouped_posts = regular_posts | group_by_exp: 'post', 'post.date | date: "%Y-%m"' %}
   
   <div class="regular-posts-section">
