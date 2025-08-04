@@ -1068,6 +1068,44 @@
   }
 }
 
+/* TOC 附加样式类 */
+.toc-progress-bar {
+  position: absolute;
+  left: 2px;
+  top: 5%;
+  width: 2px;
+  border-radius: 1px;
+  background-color: var(--global-border-color);
+  transition: all 0.3s ease;
+  
+  &.highlight-bg {
+    background-color: var(--global-link-color);
+  }
+  
+  &.readed {
+    background-color: var(--global-text-color-light);
+    opacity: 0.6;
+  }
+}
+
+.toc-nested {
+  padding-left: 28px;
+}
+
+.rounded-t {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.rounded-b {
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.relative {
+  position: relative;
+}
+
 /* 推荐阅读卡片样式 - 使用简洁的原生样式 */
 .page__related {
   margin-top: 2rem;

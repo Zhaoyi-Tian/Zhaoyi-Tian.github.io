@@ -1,6 +1,6 @@
 <div class="toc-heading">
   <h2 class="font-semibold">目录</h2>
-  <ul class="toc-list max-h-[70vh] mt-4 overflow-y-scroll text-card-foreground" id="smooth-toc-list">
+  <ul class="toc-list" id="smooth-toc-list">
     <!-- 目录项将由JavaScript动态生成 -->
   </ul>
 </div>
@@ -77,7 +77,7 @@ function renderToc(tocData, container) {
     
     // 进度条
     const progressBar = document.createElement('span');
-    progressBar.className = 'transition-colors duration-300 [&.highlight-bg]:bg-primary [&.readed]:bg-input absolute rounded top-[5%] w-[2px]';
+    progressBar.className = 'toc-progress-bar';
     progressBar.style.height = '0%';
     progressBar.setAttribute('data-progress', item.id);
     
@@ -86,7 +86,7 @@ function renderToc(tocData, container) {
     link.href = `#${item.id}`;
     
     // 根据标题级别添加不同的样式类
-    let linkClass = `transition-all py-1 [&.highlight-bg-translucent]:bg-muted [&.highlight]:font-medium [&.highlight]:text-primary [&.readed]:text-input flex-1 hover:text-foreground line-clamp-2 ms-2 px-3 text-foreground/75`;
+    let linkClass = 'toc-link';
     
     if (item.level === 2) {
       linkClass += ' toc-h2';
@@ -95,7 +95,7 @@ function renderToc(tocData, container) {
     }
     
     if (isNested) {
-      linkClass += ' ps-7';
+      linkClass += ' toc-nested';
     }
     
     link.className = linkClass;
@@ -217,7 +217,7 @@ function initScrollSpy() {
     
     // 重置所有圆角
     allLinks.forEach(link => {
-      link.classList.remove('rounded-t-2xl', 'rounded-b-2xl');
+      link.classList.remove('rounded-t', 'rounded-b');
     });
 
     // 找到当前高亮项及其相邻项
@@ -251,10 +251,10 @@ function initScrollSpy() {
 
     // 应用圆角
     if (isFirst) {
-      currentLink.classList.add('rounded-t-2xl');
+      currentLink.classList.add('rounded-t');
     }
     if (isLast) {
-      currentLink.classList.add('rounded-b-2xl');
+      currentLink.classList.add('rounded-b');
     }
   }
 
