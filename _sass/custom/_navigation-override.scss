@@ -6,8 +6,8 @@
  * 这个文件包含了所有导航栏的自定义样式和配置
  * 主要功能：
  * 1. 导航栏布局调整（首页在左，其他项在右）
- * 2. 禁用下拉菜单功能
- * 3. 强制显示所有导航项
+ * 2. 桌面端强制显示所有导航项
+ * 3. 移动端启用汉堡菜单
  * 4. 响应式设计适配
  */
 
@@ -17,7 +17,7 @@
   --nav-mobile-breakpoint: 768px;
 }
 
-/* 主要导航栏布局 */
+/* 主要导航栏布局 - 桌面端 */
 .greedy-nav .visible-links {
   display: flex !important;
   justify-content: space-between;
@@ -40,45 +40,168 @@
   margin-left: var(--nav-item-spacing);
 }
 
-/* 强制显示所有导航项，防止JavaScript将其移动到下拉菜单 */
-.greedy-nav {
-  min-width: auto !important;
+/* 桌面端强制显示所有导航项 */
+@media (min-width: 769px) {
+  .greedy-nav {
+    min-width: auto !important;
+  }
+
+  .greedy-nav .visible-links li {
+    display: table-cell !important;
+    white-space: nowrap;
+    position: static !important;
+  }
+
+  /* 桌面端隐藏汉堡菜单按钮 */
+  .greedy-nav button {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  .greedy-nav .hidden-links {
+    display: none !important;
+    visibility: hidden !important;
+  }
 }
 
-.greedy-nav .visible-links li {
-  display: table-cell !important;
-  white-space: nowrap;
-  position: static !important;
-}
-
-/* 完全禁用下拉菜单功能 */
-.greedy-nav button {
-  display: none !important;
-  visibility: hidden !important;
-}
-
-.greedy-nav .hidden-links {
-  display: none !important;
-  visibility: hidden !important;
-}
-
-/* 响应式设计 - 移动端适配 */
+/* 移动端响应式设计 */
 @media (max-width: 768px) {
+  /* 启用汉堡菜单按钮 */
+  .greedy-nav button {
+    display: block !important;
+    visibility: visible !important;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: var(--global-masthead-link-color);
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    z-index: 100;
+  }
+
+  /* 汉堡菜单图标样式 */
+  .greedy-nav button .navicon {
+    position: relative;
+    width: 20px;
+    height: 2px;
+    background: var(--global-masthead-link-color);
+    display: block;
+    transition: all 0.3s ease;
+  }
+
+  .greedy-nav button .navicon:before,
+  .greedy-nav button .navicon:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 20px;
+    height: 2px;
+    background: var(--global-masthead-link-color);
+    transition: all 0.3s ease;
+  }
+
+  .greedy-nav button .navicon:before {
+    top: -6px;
+  }
+
+  .greedy-nav button .navicon:after {
+    top: 6px;
+  }
+
+  /* 菜单关闭状态的X图标 */
+  .greedy-nav button.close .navicon {
+    background: transparent;
+  }
+
+  .greedy-nav button.close .navicon:before {
+    transform: rotate(45deg);
+    top: 0;
+  }
+
+  .greedy-nav button.close .navicon:after {
+    transform: rotate(-45deg);
+    top: 0;
+  }
+
+  /* 移动端导航布局 */
   .greedy-nav .visible-links {
-    flex-wrap: wrap;
-    justify-content: flex-start;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-right: 50px; /* 为汉堡菜单按钮留出空间 */
   }
   
   .greedy-nav .visible-links li:first-child {
-    width: 100%;
-    margin-bottom: 0.5rem;
-    text-align: center;
-    margin-right: 0;
+    width: auto;
+    margin-bottom: 0;
+    margin-right: auto;
+    align-self: flex-start;
   }
   
-  .greedy-nav .visible-links li:not(:first-child) {
-    flex: 1;
-    text-align: center;
-    margin-left: 0;
+  .greedy-nav .visible-links li:not(:first-child):not(.persist) {
+    display: none; /* 在移动端隐藏非首页链接，移到下拉菜单中 */
+  }
+
+  /* 主题切换按钮在移动端也隐藏到菜单中 */
+  .greedy-nav .visible-links li.persist.tail {
+    display: none;
+  }
+
+  /* 下拉菜单样式优化 */
+  .greedy-nav .hidden-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: var(--global-bg-color);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-top: 1px solid var(--global-border-color);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .greedy-nav .hidden-links:not(.hidden) {
+    max-height: 300px; /* 足够的高度来显示所有菜单项 */
+  }
+
+  .greedy-nav .hidden-links:before,
+  .greedy-nav .hidden-links:after {
+    display: none; /* 移除小箭头 */
+  }
+
+  .greedy-nav .hidden-links a {
+    margin: 0;
+    padding: 1rem;
+    font-size: 1rem;
+    border-bottom: 1px solid var(--global-border-color);
+    color: var(--global-masthead-link-color);
+
+    &:hover {
+      color: var(--global-masthead-link-color-hover);
+      background: var(--global-bg-color-secondary, #f8f9fa);
+    }
+  }
+
+  .greedy-nav .hidden-links li:last-child a {
+    border-bottom: none;
+  }
+
+  /* 主题切换在下拉菜单中的样式 */
+  .greedy-nav .hidden-links #theme-toggle a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .greedy-nav .hidden-links #theme-toggle a:before {
+    content: '主题切换';
   }
 }
