@@ -1397,6 +1397,22 @@
   margin-bottom: 0;
 }
 
+/* 标签页面样式 */
+.tag-posts-section {
+  margin-bottom: 3rem;
+}
+
+.tag-posts-section:last-child {
+  margin-bottom: 0;
+}
+
+.tag-posts-section .section-title {
+  border-left: 4px solid var(--global-link-color);
+  padding-left: 1rem;
+  margin-left: 0;
+  border-bottom: 1px solid var(--global-border-color);
+}
+
 /* 响应式设计 */
 @media (max-width: 640px) {
   .blog-posts-grid {

@@ -8,10 +8,16 @@ author_profile: true
 {% include base_path %}
 {% include group-by-array collection=site.posts field="tags" %}
 
-{% for tag in group_names %}
-  {% assign posts = group_items[forloop.index0] %}
-  <h2 id="{{ tag | slugify }}" class="archive__subtitle">{{ tag }}</h2>
-  {% for post in posts %}
-    {% include archive-single.html %}
+<div class="blog-container">
+  {% for tag in group_names %}
+    {% assign posts = group_items[forloop.index0] %}
+    <div class="tag-posts-section">
+      <h2 id="{{ tag | slugify }}" class="section-title">🏷️ {{ tag }}</h2>
+      <div class="blog-posts-grid">
+        {% for post in posts %}
+          {% include archive-single-post.html %}
+        {% endfor %}
+      </div>
+    </div>
   {% endfor %}
-{% endfor %}
+</div>
