@@ -29,4 +29,5 @@ author_profile: true
 
 <div class="home-footer">
   <p>欢迎通过导航栏了解更多关于我的<a href="/about/">信息</a>和<a href="/projects/">项目</a>。</p>
+  <p style="margin-top: 0.5rem;">更喜欢Astro风格？→ <a href="https://zhaoyi-tian.vercel.app/" style="font-weight: 500;">点击切换</a></p>
 </div>
