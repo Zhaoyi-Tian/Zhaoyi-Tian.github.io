@@ -3,26 +3,47 @@
 <div class="masthead">
   <div class="masthead__inner-wrap">
     <div class="masthead__menu">
-      <nav id="site-nav" class="greedy-nav">
-        <button><div class="navicon"></div></button>
-        <ul class="visible-links">
-          <li class="masthead__menu-item masthead__menu-item--lg persist"><a href="{{ base_path }}/">{{ site.title }}</a></li>
+      <nav id="site-nav" class="greedy-nav" aria-label="主导航">
+        <button class="mobile-menu-toggle" 
+                aria-label="切换导航菜单" 
+                aria-expanded="false" 
+                aria-controls="hidden-navigation-menu">
+          <div class="navicon"></div>
+        </button>
+        <ul class="visible-links" role="list" aria-label="主导航菜单">
+          <li class="masthead__menu-item masthead__menu-item--lg site-title">
+            <a href="{{ base_path }}/">{{ site.title }}</a>
+          </li>
           {% for link in site.data.navigation.main %}
             {% if link.url contains 'http' %}
               {% assign domain = '' %}
             {% else %}
               {% assign domain = base_path %}
             {% endif %}
-            <li class="masthead__menu-item"><a href="{{ domain }}{{ link.url }}">{{ link.title }}</a></li>
+            <li class="masthead__menu-item nav-item">
+              <a href="{{ domain }}{{ link.url }}">{{ link.title }}</a>
+            </li>
           {% endfor %}
-          <li id="theme-toggle" class="masthead__menu-item persist">
-            <a role="button" aria-labelledby="theme-icon"><i id="theme-icon" class="fa-solid fa-sun" aria-hidden="true" title="toggle theme"></i></a>
+          <li id="theme-toggle" class="masthead__menu-item theme-toggle">
+            <button aria-label="切换主题" 
+                    type="button">
+              <i id="theme-icon" class="fa-solid fa-sun" aria-hidden="true" title="切换主题"></i>
+            </button>
           </li>
-          <li class="masthead__menu-item persist tail">
-            <a href="https://zhaoyi-tian.cn/" target="_blank" rel="noopener noreferrer" title="Another Portfolio"><i class="fa-solid fa-external-link-alt" aria-hidden="true"></i></a>
+          <li class="masthead__menu-item external-link">
+            <a href="https://zhaoyi-tian.cn/" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               aria-label="访问另一个作品集">
+              <i class="fa-solid fa-external-link-alt" aria-hidden="true"></i>
+            </a>
           </li>
         </ul>
-        <ul class="hidden-links hidden"></ul>
+        <ul class="hidden-links hidden" 
+            id="hidden-navigation-menu" 
+            role="menu" 
+            aria-label="移动端导航菜单">
+        </ul>
       </nav>
     </div>
   </div>

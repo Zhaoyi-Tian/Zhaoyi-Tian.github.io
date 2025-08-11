@@ -1,0 +1,39 @@
+# Headers for GitHub Pages (if supported)
+# These headers improve security and performance
+
+# Security Headers
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  
+# Cache Control for static assets
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# CSS and JS files
+*.css
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: text/css
+
+*.js
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: application/javascript
+
+# Images
+*.png
+  Cache-Control: public, max-age=31536000, immutable
+
+*.jpg
+  Cache-Control: public, max-age=31536000, immutable
+
+*.jpeg
+  Cache-Control: public, max-age=31536000, immutable
+
+*.svg
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML files
+*.html
+  Cache-Control: public, max-age=3600

@@ -27,6 +27,7 @@
     "layout/notices",
     "layout/masthead",
     "layout/navigation",
+    "custom/navigation-override",
     "layout/footer",
     "syntax",
 
@@ -736,48 +737,55 @@
   color: var(--global-text-color);
 }
 
-/* 导航栏布局：首页在左，其他项在右 */
-.greedy-nav .visible-links {
-  display: flex !important;
-  justify-content: space-between;
-  align-items: center;
-  width: 100% !important;
-  table-layout: auto !important;
+/* 桌面端导航栏布局：首页在左，其他项在右 */
+@media (min-width: 769px) {
+  .greedy-nav .visible-links {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    width: 100% !important;
+    table-layout: auto !important;
+  }
+
+  .greedy-nav .visible-links li:first-child {
+    margin-right: auto; /* 推送首页链接到左侧 */
+  }
+
+  .greedy-nav .visible-links li:not(:first-child) {
+    margin-left: 0; /* 重置其他项的间距 */
+  }
+
+  /* 确保其他导航项聚集在右侧 */
+  .greedy-nav .visible-links li:nth-child(n+2):not(.persist.tail) {
+    margin-left: 1rem;
+  }
+
+  /* 强制显示所有导航项，防止JavaScript将其移动到下拉菜单 */
+  .greedy-nav {
+    min-width: auto !important;
+  }
+
+  .greedy-nav .visible-links li {
+    display: flex !important;
+    white-space: nowrap;
+    position: static !important;
+  }
 }
 
-.greedy-nav .visible-links li:first-child {
-  margin-right: auto; /* 推送首页链接到左侧 */
+/* 桌面端隐藏下拉按钮 */
+@media (min-width: 769px) {
+  .greedy-nav button {
+    display: none !important;
+    visibility: hidden !important;
+  }
 }
 
-.greedy-nav .visible-links li:not(:first-child) {
-  margin-left: 0; /* 重置其他项的间距 */
-}
-
-/* 确保其他导航项聚集在右侧 */
-.greedy-nav .visible-links li:nth-child(n+2):not(.persist.tail) {
-  margin-left: 1rem;
-}
-
-/* 强制显示所有导航项，防止JavaScript将其移动到下拉菜单 */
-.greedy-nav {
-  min-width: auto !important;
-}
-
-.greedy-nav .visible-links li {
-  display: table-cell !important;
-  white-space: nowrap;
-}
-
-/* 完全隐藏下拉按钮 */
-.greedy-nav button {
-  display: none !important;
-  visibility: hidden !important;
-}
-
-/* 完全隐藏下拉菜单 */
-.greedy-nav .hidden-links {
-  display: none !important;
-  visibility: hidden !important;
+/* 桌面端隐藏下拉菜单 */
+@media (min-width: 769px) {
+  .greedy-nav .hidden-links {
+    display: none !important;
+    visibility: hidden !important;
+  }
 }
 
 /* 禁用JavaScript移动导航项的功能 */
