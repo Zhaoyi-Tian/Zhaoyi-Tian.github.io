@@ -417,6 +417,9 @@
     }
   }
 
+  // 立即禁用greedy navigation，防止它运行
+  disableOriginalGreedyNav();
+
   // 等待DOM和jQuery都准备好
   ready(function() {
     // 如果jQuery存在，等待它也准备好

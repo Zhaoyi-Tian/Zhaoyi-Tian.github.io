@@ -1,4 +1,33 @@
+<!-- Disable greedy navigation BEFORE main.min.js loads -->
+<script>
+  // Immediately disable greedy navigation to prevent it from running
+  window.updateNav = function() {
+    console.log('Greedy navigation disabled');
+  };
+  
+  // Also override jQuery ready to intercept greedy nav initialization
+  if (window.jQuery) {
+    jQuery(function($) {
+      // Override the jQuery selectors used by greedy nav
+      window.$nav = $();
+      window.$btn = $();
+      window.$vlinks = $(); 
+      window.$hlinks = $();
+      window.breaks = [];
+      
+      // Remove any resize handlers
+      $(window).off('resize.greedynav orientationchange.greedynav');
+    });
+  }
+</script>
+
 <script type="module" src="{{ base_path }}/assets/js/main.min.js"></script>
+
+<!-- Fix navigation after greedy nav runs -->
+<script src="{{ base_path }}/assets/js/fix-navigation.js"></script>
+
+<!-- 主题切换功能 -->
+<script src="{{ base_path }}/assets/js/theme-toggle.js"></script>
 
 <!-- 导航栏自动隐藏功能 -->
 <script src="{{ base_path }}/assets/js/masthead-autohide.js"></script>
